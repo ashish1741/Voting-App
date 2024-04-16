@@ -103,8 +103,6 @@ const userLogin = async (req, res) => {
       user: user,
       token: token,
     });
-
-
   } catch (error) {
     console.error("Error:", error);
     return res.status(500).json({
@@ -114,8 +112,92 @@ const userLogin = async (req, res) => {
   }
 };
 
-//
+//user profile
+
+const getUserProfile = async (req, res) => {
+
+  const userData =  req.userData
+  console.log(userData);
+
+  const userId = userData ? userData.id : null;
+
+  if (!userId) {
+    return res.status(401).json({
+      statusCode: 401,
+      error: "Please provide user ID",
+    });
+  }
+
+  try {
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({
+        statusCode: 404,
+        error: "User not found",
+      });
+    }
+
+    res.status(200).json({
+      statusCode: 200,
+      user: user,
+    });
+  } catch (error) {
+    console.error("Error:", error);
+    return res.status(500).json({
+      statusCode: 500,
+      error: "Internal server error",
+    });
+  }
+};
 
 
+// update password 
 
-module.exports = { UserSignUp , userLogin };
+const updatePassword =  async(req, res) => {
+
+  const{oldPassword , newPassword} =  req.body;
+  const id =  req.userData.id;
+
+  if (!oldPassword || !newPassword) {
+    return res.status(401).json({
+      statusCode:401,
+      err:"please provided required filed"
+    })
+    
+  }
+
+  try {
+    const user =  await User.findById(id);
+
+    const isOldPasswordCorrect = await bcrypt.compare(oldPassword , user.password);
+
+    if (!isOldPasswordCorrect) {
+      return res.status(401).json({
+        statusCode:401,
+        error:"please enter correct password"
+      })
+      
+    }
+
+    const hashPassword =  await bcrypt.hash(newPassword, 12);
+
+    user.password = hashPassword;
+    await user.save();
+
+    return res.status(200).json({
+      statusCode: 200,
+      message: "password updated sucessfully",
+      user: user,
+    });
+  } catch (error) {
+    console.error("Error:", error);
+    return res.status(500).json({
+      statusCode: 500,
+      error: "Internal server error",
+    });
+  }
+}
+
+
+module.exports = { UserSignUp, userLogin, getUserProfile , updatePassword };

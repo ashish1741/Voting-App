@@ -20,11 +20,10 @@ const jwtAuthMiddleWare = async (req, res, next) => {
   }
 
   try {
-    const decoded =   jwt.verify(token, process.env.SECRETE_KEY);
-
-     req.userData =  decoded;
-
+      const decoded =   jwt.verify(token, process.env.SECRETE_KEY);
+      req.userData  =  decoded;
     next();
+
   } catch (error) {
     res.status(401).json({
       statusCode: 401,
