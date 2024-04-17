@@ -3,7 +3,7 @@ const { generatedToken } = require("../middlewares/JwtAuth");
 const User = require("../model/user.js");
 
 const UserSignUp = async (req, res) => {
-  const { username, email, password, citizenShipNumber, address, age } =
+  const { username, email, password, citizenShipNumber, address, age , role } =
     req.body;
 
   if (
@@ -12,7 +12,7 @@ const UserSignUp = async (req, res) => {
     !password ||
     !citizenShipNumber ||
     !address ||
-    !age
+    !age 
   ) {
     return res.status(401).json({
       statusCode: 401,
@@ -36,6 +36,7 @@ const UserSignUp = async (req, res) => {
       citizenShipNumber,
       address,
       age,
+      role
     };
 
     const user = new User(data);
