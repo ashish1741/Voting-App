@@ -36,5 +36,5 @@ const CandidateSchema = new mongoose.Schema({
 
 
 
-const candidate = mongoose.model("user", CandidateSchema);
+const candidate = mongoose.model("Candidate", CandidateSchema);
 module.exports = candidate;
