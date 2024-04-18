@@ -30,6 +30,7 @@ const createCandidate = async (req, res) => {
       response: response,
     });
   } catch (error) {
+    console.log(error);
     res.status(500).json({
       statusCode: 500,
       err: "Internal Sever Error",

@@ -3,28 +3,28 @@ const mongoose = require("mongoose");
 const CandidateSchema = new mongoose.Schema({
   name: {
     type: String,
-    require: true,
+    required: true,
   },
   Party: {
     type: String,
-    require: true,
+    required: true,
   },
   age: {
     type: Number,
-    require: true,
+    required: true,
   },
 
   vote: [
     {
       user: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
-        require: true,
+        ref: "user",
+        required: true,
       },
 
       votedAt: {
         type: Date,
-        default: Date.now(),
+        default: Date.now,
       },
     },
   ],
@@ -33,6 +33,7 @@ const CandidateSchema = new mongoose.Schema({
     default: 0,
   },
 });
+
 
 
 
