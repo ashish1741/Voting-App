@@ -12,4 +12,5 @@ candidateRouter.post("/createCandidate", jwtAuthMiddleWare, createCandidate);
 candidateRouter.put("/candidate/:id", jwtAuthMiddleWare, UpdateCandidateId);
 candidateRouter.delete("/candidate/:id", jwtAuthMiddleWare, deleteCandidate);
 
+
 module.exports = candidateRouter;
